@@ -2,6 +2,7 @@
 #define UTIL_POINT3_H__
 
 #include <sstream>
+#include <boost/lexical_cast.hpp>
 
 namespace util {
 
@@ -108,7 +109,7 @@ struct point3 {
 	{
 		return !(*this <= other);
 	}
-	
+
 	template<typename S>
 	bool operator<(const point3<S>& other) const {
 
@@ -140,6 +141,14 @@ struct point3 {
 
 		return point3<T>(std::max(x, pt.x), std::max(y, pt.y), std::max(z, pt.z));
 	}
+
+    std::string to_string() const
+    {
+        return "<" +
+        boost::lexical_cast<std::string>( x ) + ", " +
+        boost::lexical_cast<std::string>( y ) + ", " +
+        boost::lexical_cast<std::string>( z ) + ">";
+    }
 };
 
 } // namespace util
@@ -195,11 +204,9 @@ util::point3<T> operator/(const util::point3<T>& p, const S& s) {
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const util::point3<T>& point) {
 
-	os << "(" << point.x << ", " << point.y << ", " << point.z << ")";
+	os << "(" << point.to_string() << ")";
 
 	return os;
 }
 
-
 #endif // UTIL_POINT3_H__
-
